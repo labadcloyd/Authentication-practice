@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const { urlencoded } = require('body-parser');
 const encrypt = require('mongoose-encryption');
 require('dotenv').config();
+const md5 = require('md5');
 
 const app = express();
 
@@ -37,7 +38,7 @@ app.get('/register', (req,res)=>{
 app.post('/register',(req,res)=>{
     let newUser = new user({
         username: req.body.username,
-        password: req.body.password
+        password: md5(req.body.password)
     })
     newUser.save((err)=>{
         if(err){
@@ -56,7 +57,7 @@ app.post('/login',(req,res)=>{
             res.send(err)
         }
         else if(foundUser){
-            if(foundUser.password===req.body.password){
+            if(foundUser.password===md5(req.body.password)){
                 res.render('secrets.ejs')
             }
             else{
