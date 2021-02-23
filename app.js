@@ -4,6 +4,7 @@ const ejs = require('ejs');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { urlencoded } = require('body-parser');
+const encrypt = require('mongoose-encryption');
 
 const app = express();
 
@@ -17,8 +18,11 @@ mongoose.set('useFindAndModify', false);
 const userSchema = new mongoose.Schema({
     username:String,
     password:String
-})
-const user = mongoose.model('user',userSchema)
+});
+const secret = 'thisisourlittlesecret';
+userSchema.plugin(encrypt, {secret:secret, encryptedFields: ['password'] });
+
+const user = new mongoose.model('user', userSchema)
 
 app.listen(3000, ()=>{
     console.log('listening on port 3000');
