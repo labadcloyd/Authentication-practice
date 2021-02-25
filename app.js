@@ -5,8 +5,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { urlencoded } = require('body-parser');
 require('dotenv').config();
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
 
 const app = express();
 
@@ -33,7 +31,6 @@ app.get('/register', (req,res)=>{
     res.render('register.ejs')
 })
 app.post('/register',(req,res)=>{
-    bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
         let newUser = new user({
             username: req.body.username,
             password: hash
@@ -45,7 +42,6 @@ app.post('/register',(req,res)=>{
                 res.render('secrets.ejs')
             }
         });
-    });
 })
 app.get('/login',(req,res)=>{
     res.render('login.ejs')
@@ -56,14 +52,12 @@ app.post('/login',(req,res)=>{
             res.send(err)
         }
         else if(foundUser){
-            bcrypt.compare(req.body.password, foundUser.password, function(err, result) {
-                if(result == true){
-                    res.render('secrets.ejs')
-                }
-                else{
-                    res.send("no found user")
-                }
-            });
+            if(foundUser.password === req.body.password){
+                res.render('secrets.ejs')
+            }
+            else{
+                res.send('no user found')
+            }
         }
     })
 })
