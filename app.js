@@ -24,7 +24,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
+let mongoServerPassword = process.env.MONGODB_URL
 mongoose.connect(process.env.MONGODB_URL||'mongodb+srv://admin-cloyd:'+mongoServerPassword+'@todo-app.0pmsv.mongodb.net/secretsDB?retryWrites=true&w=majority', {useNewUrlParser:true, useUnifiedTopology: true })
 mongoose.set('useFindAndModify', false);
 
