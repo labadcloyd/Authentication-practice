@@ -25,7 +25,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-mongoose.connect('mongodb://localhost:27017/authenticationPractice', {useNewUrlParser:true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URL||'mongodb+srv://admin-cloyd:'+mongoServerPassword+'@todo-app.0pmsv.mongodb.net/secretsDB?retryWrites=true&w=majority', {useNewUrlParser:true, useUnifiedTopology: true })
 mongoose.set('useFindAndModify', false);
 
 const UserSchema = new mongoose.Schema({
