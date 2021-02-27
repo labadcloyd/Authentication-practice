@@ -35,13 +35,12 @@ const UserSchema = new mongoose.Schema({
 UserSchema.plugin(passportLocalMongoose);
 
 const User = new mongoose.model('user', UserSchema);
-
 passport.use(User.createStrategy());
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.listen(3000, ()=>{
+app.listen(process.env.PORT || 3000, ()=>{
     console.log('listening on port 3000');
 });
 app.get('/',(req,res)=>{
