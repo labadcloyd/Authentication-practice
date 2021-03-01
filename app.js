@@ -32,7 +32,8 @@ mongoose.set('useFindAndModify', false);
 
 const UserSchema = new mongoose.Schema({
     username:String,
-    password:String
+    password:String,
+    googleId:String
 });
 UserSchema.plugin(passportLocalMongoose);
 UserSchema.plugin(findOrCreate);
